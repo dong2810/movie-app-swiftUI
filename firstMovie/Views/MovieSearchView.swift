@@ -8,8 +8,33 @@
 import SwiftUI
 
 struct MovieSearchView: View {
+
+	@ObservedObject var movieSearchState = MovieSearchState()
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+		NavigationView {
+			List {
+				SearchBarView(placeholder: "Type name of Movies", text: self.$movieSearchState.query)
+
+				LoadingView(isLoading: self.movieSearchState.isLoading, error: self.movieSearchState.error) {
+					self.movieSearchState.search(query: self.movieSearchState.query)
+				}
+				if self.movieSearchState.movies != nil {
+					ForEach (self.movieSearchState.movies!) {
+						movie in
+						NavigationLink (destination: MovieDetailView(movieId: movie.id)) {
+							VStack(alignment: .leading) {
+								Text(movie.title)
+								Text(movie.yearText)
+							}
+						}
+					}
+				}
+			}
+			.onAppear {
+				self.movieSearchState.startObserve()
+			}.navigationTitle("Search Movies")
+		}
     }
 }
 
