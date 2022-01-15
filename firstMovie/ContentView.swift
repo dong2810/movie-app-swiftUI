@@ -27,6 +27,14 @@ struct ContentView: View {
 					}
 			}
 			.tag(1)
+
+			MovieFavouriteView()
+				.tabItem {
+					VStack {
+						Image(systemName: "heart")
+						Text("Favourite")
+					}
+			}
 		}
     }
 }
