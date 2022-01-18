@@ -34,8 +34,9 @@ struct ContentView: View {
 						Image(systemName: "heart")
 						Text("Favourite")
 					}
-			}
-		}
+				}
+
+		}.accentColor(Color.red)
     }
 }
 

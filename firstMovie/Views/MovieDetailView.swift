@@ -29,7 +29,7 @@ struct MovieDetailView: View {
 
 struct MovieDetailListView: View {
 	let movie: Movie
-	//	@State private var selectedTrailer: MovieVideo?
+	@State private var selectedTrailer: MovieVideo?
 	let imageLoader = ImageLoader()
 
 	var body: some View {
@@ -70,7 +70,39 @@ struct MovieDetailListView: View {
 					Spacer(minLength: 10)
 
 					//button
-					ButtonView()
+					if movie.youtubeTrailers != nil && movie.youtubeTrailers!.count > 0 {
+						ForEach (movie.youtubeTrailers!.prefix(1)) { trailer in
+							Button(action: {
+								self.selectedTrailer = trailer
+							}) {
+								HStack {
+									Image(systemName: "play.fill")
+										.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 36))
+									Text("PLAY")
+										.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+								}
+							}
+							.buttonStyle(PlainButtonStyle())
+							.frame(width: 300.0, height: 40, alignment: .center)
+							.background(Color.white)
+							.foregroundColor(Color.black)
+							.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 5))
+						}
+					}
+
+					Spacer()
+
+					Button {
+						print("Download was tapped")
+					} label: {
+						Label("DOWNLOAD", systemImage: "square.and.arrow.down")
+							.padding(.init(top: 0, leading: 20, bottom: 0, trailing: 0))
+					}
+					.buttonStyle(PlainButtonStyle())
+					.frame(width: 300.0, height: 40, alignment: .center)
+					.background(Color.gray)
+					.foregroundColor(Color.white)
+					.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 5))
 
 				}.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
 					.listRowSeparator(.hidden)
@@ -125,9 +157,6 @@ struct MovieDetailListView: View {
 							Text(director[i].name).lineLimit(1)
 						}
 					}
-//				ForEach((self.movie.directors?.prefix(2))!) { director in
-//					Text(director.name)
-//					Text(",")
 				}
 			}.foregroundColor(Color.white)
 				.listRowBackground(Color.black)
@@ -162,7 +191,11 @@ struct MovieDetailListView: View {
 				}.frame(minWidth: 0, maxWidth: .infinity)
 			}.foregroundColor(Color.white)
 				.listRowBackground(Color.black)
-		}.listStyle(PlainListStyle())
+		}
+		.sheet(item: self.$selectedTrailer) { trailer in
+			VideoView(url: trailer.youtubeURL!)
+		}
+		.listStyle(PlainListStyle())
 			.background(Color.black)
 	}
 }
@@ -198,35 +231,50 @@ struct MovieDetailImage: View {
 	}
 }
 
-struct ButtonView: View {
-	var body: some View {
-		Button {
-			print("Play was tapped")
-		} label: {
-			Label("PLAY", systemImage: "play.fill")
-				.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 35))
-		}
-		.buttonStyle(PlainButtonStyle())
-		.frame(width: 300.0, height: 40, alignment: .center)
-		.background(Color.white)
-		.foregroundColor(Color.black)
-		.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 5))
-
-		Spacer()
-
-		Button {
-			print("Download was tapped")
-		} label: {
-			Label("DOWNLOAD", systemImage: "square.and.arrow.down")
-				.padding(.init(top: 0, leading: 20, bottom: 0, trailing: 0))
-		}
-		.buttonStyle(PlainButtonStyle())
-		.frame(width: 300.0, height: 40, alignment: .center)
-		.background(Color.gray)
-		.foregroundColor(Color.white)
-		.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 5))
-	}
-}
+//struct ButtonView: View {
+//	let movie: Movie
+//	@State private var selectedTrailer: MovieVideo?
+//	var body: some View {
+//		if movie.youtubeTrailers != nil && movie.youtubeTrailers!.count > 0 {
+//			ForEach (movie.youtubeTrailers!.prefix(1)) { trailer in
+//				Button(action: {
+//					self.selectedTrailer = trailer
+//				}) {
+//					HStack {
+////						Text("PLAY")
+//						Image(systemName: "play.fill")
+//							.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 36))
+//						Text("PLAY")
+//							.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+//					}
+////					print("Play was tapped")
+////				} label: {
+////					Label("PLAY", systemImage: "play.fill")
+////						.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 35))
+//				}
+//				.buttonStyle(PlainButtonStyle())
+//				.frame(width: 300.0, height: 40, alignment: .center)
+//				.background(Color.white)
+//				.foregroundColor(Color.black)
+//				.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 5))
+//			}
+//		}
+//
+//		Spacer()
+//
+//		Button {
+//			print("Download was tapped")
+//		} label: {
+//			Label("DOWNLOAD", systemImage: "square.and.arrow.down")
+//				.padding(.init(top: 0, leading: 20, bottom: 0, trailing: 0))
+//		}
+//		.buttonStyle(PlainButtonStyle())
+//		.frame(width: 300.0, height: 40, alignment: .center)
+//		.background(Color.gray)
+//		.foregroundColor(Color.white)
+//		.padding(.init(top: 0, leading: 0, bottom: 0, trailing: 5))
+//	}
+//}
 
 struct MovieDetailView_Previews: PreviewProvider {
 	static var previews: some View {
