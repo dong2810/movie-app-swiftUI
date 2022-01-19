@@ -116,6 +116,7 @@ struct MovieDetailListView: View {
 			}.frame(minWidth: 0,
 					maxWidth: .infinity)
 				.listRowBackground(Color.black)
+				.listRowSeparator(.hidden)
 
 			//Rating
 			HStack {
@@ -160,6 +161,7 @@ struct MovieDetailListView: View {
 				}
 			}.foregroundColor(Color.white)
 				.listRowBackground(Color.black)
+				.listRowSeparator(.hidden)
 
 			//Button
 			HStack {
@@ -191,6 +193,7 @@ struct MovieDetailListView: View {
 				}.frame(minWidth: 0, maxWidth: .infinity)
 			}.foregroundColor(Color.white)
 				.listRowBackground(Color.black)
+				.listRowSeparator(.hidden)
 		}
 		.sheet(item: self.$selectedTrailer) { trailer in
 			VideoView(url: trailer.youtubeURL!)
