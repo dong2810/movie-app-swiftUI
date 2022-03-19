@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SideMenu: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+		Text("Hello, SwiftUI")
+					.modifier(PrimaryLabel())
     }
 }
 
@@ -17,4 +18,14 @@ struct SideMenu_Previews: PreviewProvider {
     static var previews: some View {
         SideMenu()
     }
+}
+
+struct PrimaryLabel: ViewModifier {
+	func body(content: Content) -> some View {
+		content
+//			.padding()
+			.background(Color.red)
+//			.foregroundColor(Color.white)
+//			.font(.largeTitle)
+	}
 }

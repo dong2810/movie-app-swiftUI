@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MoviePosterCarouselView: View {
 
+	@State private var rotateIn3D = false
 	let title: String
 	let movies: [Movie]
 
@@ -23,7 +24,13 @@ struct MoviePosterCarouselView: View {
 				HStack(alignment: .top, spacing: 16) {
 					ForEach(self.movies) { movie in
 						NavigationLink(destination: MovieDetailView(movieId: movie.id)) {
-						MoviePosterCard(movie: movie)
+//							GeometryReader { geometry in
+								MoviePosterCard(movie: movie)
+//								.rotation3DEffect(Angle(degrees: Double(geometry.frame(in: .global).minX - 50) / -30), axis: (x: 0, y: 100.0, z: 0))
+//									.animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true),
+//											 value: rotateIn3D)
+//							}
+//							.frame(width: 250, height: 400)
 						}
 							.buttonStyle(PlainButtonStyle())
 							.padding(.leading, movie.id == self.movies.first!.id ? 16 : 0)

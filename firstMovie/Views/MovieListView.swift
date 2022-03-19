@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
+import FSPagerView
 
 struct MovieListView: View {
-
 	@ObservedObject private var nowPlayingState = MovieListState()
 	@ObservedObject private var upcomingState = MovieListState()
 	@ObservedObject private var topRatedState = MovieListState()
@@ -17,9 +17,23 @@ struct MovieListView: View {
 	var body: some View {
 		NavigationView {
 			List {
+//				Group {
+//					HStack {
+//						Button {
+//							print("Button pressed")
+//						} label: {
+//							Text("Press Me")
+//								.padding(20)
+//						}
+//						.background(Color.gray)
+//						.cornerRadius(20)
+//						.buttonStyle(PlainButtonStyle())
+//					}
+//				}
+
 				Group {
 					if nowPlayingState.movies != nil {
-						MoviePosterCarouselView(title: "Now Playing", movies: nowPlayingState.movies!)
+						MoviePosterCarouselView(title: "Now Playing", movies: nowPlayingState.movies!)	
 
 					} else {
 						LoadingView(isLoading: self.nowPlayingState.isLoading, error: self.nowPlayingState.error) {
@@ -28,6 +42,7 @@ struct MovieListView: View {
 					}
 
 				}
+				.listRowSeparator(.hidden)
 				.listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
 
 				Group {
@@ -39,6 +54,7 @@ struct MovieListView: View {
 						}
 					}
 				}
+				.listRowSeparator(.hidden)
 				.listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
 
 
@@ -51,9 +67,8 @@ struct MovieListView: View {
 							self.topRatedState.loadMovies(with: .topRated)
 						}
 					}
-
-
 				}
+				.listRowSeparator(.hidden)
 				.listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
 
 				Group {
@@ -68,8 +83,14 @@ struct MovieListView: View {
 				}
 				.listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 16, trailing: 0))
 			}
+			.listStyle(PlainListStyle())
 			.navigationBarTitle("Home")
-		}
+			.navigationBarItems(leading: HStack {
+				Button {
+				} label: {
+					Image(systemName: "list.bullet")
+				}.frame(minWidth: 0, maxWidth: .infinity)
+			})
 		.onAppear {
 			self.nowPlayingState.loadMovies(with: .nowPlaying)
 			self.upcomingState.loadMovies(with: .upcoming)
@@ -85,5 +106,5 @@ struct MovieListView_Previews: PreviewProvider {
 		MovieListView()
 	}
 }
-
+}
 

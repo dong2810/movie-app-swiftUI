@@ -48,7 +48,7 @@ class MovieStore: MovieService {
 		], completion: completion)
 	}
 
-	private func loadURLAndDecode<D: Decodable>(url: URL, params: [String: String]? = nil, completion: @escaping (Result<D, MovieError>) -> ()) {
+	private func loadURLAndDecode<R: Decodable>(url: URL, params: [String: String]? = nil, completion: @escaping (Result<R, MovieError>) -> ()) {
 		guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
 			completion(.failure(.invalidEndpoint))
 			return
@@ -85,7 +85,7 @@ class MovieStore: MovieService {
 			}
 
 			do {
-				let decodedResponse = try self.jsonDecoder.decode(D.self, from: data)
+				let decodedResponse = try self.jsonDecoder.decode(R.self, from: data)
 				self.executeCompletionHandlerInMainThread(with: .success(decodedResponse), completion: completion)
 			} catch {
 				self.executeCompletionHandlerInMainThread(with: .failure(.serializationError), completion: completion)

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MovieDetailView: View {
 	let movieId: Int
-	@ObservedObject private var movieDetailState = MovieDetailState()
+	@StateObject private var movieDetailState = MovieDetailState()
 
 	var body: some View {
 		ZStack {
@@ -166,28 +166,24 @@ struct MovieDetailListView: View {
 			//Button
 			HStack {
 				Button {
-					print("My list was tapped")
 				} label: {
 					Image(systemName: "checkmark")
-					Text("My List")
+					Text("Favourite")
 				}.frame(minWidth: 0, maxWidth: .infinity)
 
 				Button {
-					print("Rated was tapped")
 				} label: {
 					Image(systemName: "hand.thumbsup")
 					Text("Rate")
 				}.frame(minWidth: 0, maxWidth: .infinity)
 
 				Button {
-					print("Shared was tapped")
 				} label: {
 					Image(systemName: "shareplay")
 					Text("Share")
 				}.frame(minWidth: 0, maxWidth: .infinity)
 
 				Button {
-					print("Shared was tapped")
 				} label: {
 					Text("")
 				}.frame(minWidth: 0, maxWidth: .infinity)
@@ -200,19 +196,6 @@ struct MovieDetailListView: View {
 		}
 		.listStyle(PlainListStyle())
 			.background(Color.black)
-	}
-}
-
-struct NavigationConfigurator: UIViewControllerRepresentable {
-	var configure: (UINavigationController) -> Void = { _ in }
-
-	func makeUIViewController(context: UIViewControllerRepresentableContext<NavigationConfigurator>) -> UIViewController {
-		UIViewController()
-	}
-	func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<NavigationConfigurator>) {
-		if let nc = uiViewController.navigationController {
-			self.configure(nc)
-		}
 	}
 }
 
